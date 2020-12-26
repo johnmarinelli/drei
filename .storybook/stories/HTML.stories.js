@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useFrame } from 'react-three-fiber'
 
 import { Setup } from '../Setup'
 
@@ -39,6 +40,25 @@ function HTMLScene() {
     </group>
   )
 }
+
+const round = (n) => Math.round(n * 100) / 100
+
+function BugRepro() {
+  const ref = React.useRef()
+  useFrame(({ mouse }) => {
+    ref.current.innerText = `${round(mouse.x)}, ${round(mouse.y)}`
+  })
+  return (
+    <group>
+      <Html>
+        <div style={{backgroundColor: 'white'}} ref={ref}>Hello world</div>
+      </Html>
+    </group>
+  )
+}
+
+export const Bug = () => <BugRepro />
+Bug.storyName = 'Bug'
 
 export const HTMLSt = () => <HTMLScene />
 HTMLSt.storyName = 'Default'
